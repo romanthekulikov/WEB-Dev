@@ -1,0 +1,39 @@
+.admin__form
+{
+    margin: 2.78% 0% 0% 2.68%;
+}
+
+.take__email
+{
+    border: 1px solid #C0C0C0;
+    border-radius: 4px;
+    font: normal 500 18px /1.2 Montserrat;
+    color: rgba(77, 77, 77, 0.6);
+
+    width: 24.25%;
+    padding: 1.2% 0% 1% 1.5%;
+}
+
+.take__email::placeholder
+{
+    color: #999999;
+}
+
+.take__button
+{
+    margin: 0% 0% 0% 2.7%;
+    padding: 1.15% 0% 0.95% 0%;
+    text-align: center;
+
+    background-color: #000;
+    color: #fff;
+
+    font: normal 500 18px /1.2 Montserrat;
+    border-radius: 5px;
+    width: 25.9%;
+}
+
+.take__button:hover
+{
+    cursor: pointer;
+}
