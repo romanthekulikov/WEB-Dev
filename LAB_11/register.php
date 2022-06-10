@@ -1,16 +1,14 @@
 <?php
 
-function getPostParameter(string $paremeterName): ?string
-{
-    return isset($_POST[$paremeterName]) ? $_POST[$paremeterName] : null;
-}
+$inputString = $_POST;
 
-$email = getPostParameter("email");
-$name = getPostParameter("name");
-$profession = getPostParameter("profession");
-$checkbox = getPostParameter("checkbox");
+$email = $inputString["userEmail"];
+$name = $inputString["userName"];
+$profession = $inputString["userProfession"];
+$checkbox = $inputString["isUserAgree"];
 
-if (($email != null) and ($name != null) and ($profession != null) and ($checkbox != null))
+
+if (($email != null) && ($name != null) && ($profession != null) && ($checkbox != null))
 {
     $answer = $checkbox ? "Да" : "Нет";
 
@@ -21,10 +19,21 @@ if (($email != null) and ($name != null) and ($profession != null) and ($checkbo
 
     file_put_contents($filename, $text);
 }
-else
-{
-    echo "Не канает";
 
+if (file_exists("C:/Users/Roman/Desktop/WEB-Development/Frontend_Lab/LAB_11/user/$email.txt"))
+{
+    $message = 'HTTP: 200)';
+} else {
+    $message = 'HTTP: 500( ';
+    http_response_code(500);
 }
+
+
+$response = ['message' => $message];
+
+
+
+header('Content-type: application/json');
+echo json_encode($response);
 
 ?>
