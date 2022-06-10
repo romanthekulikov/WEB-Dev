@@ -14,6 +14,7 @@ if (popupLinks.length > 0) {
   } 
 }
 
+
 const popupCloseIcon = document.querySelectorAll('.close-popup');
 if (popupCloseIcon.length > 0) {
   for (let index = 0; index < popupCloseIcon.length; index++) {
@@ -59,22 +60,24 @@ form.addEventListener('submit', formSend);
 async function formSend(e) {
   e.preventDefault();
 
-  let error = formValidate(form);
+  let arr = formValidate(form);
+  let error = arr[0];
+  let email = arr[1];
+  let nameD = arr[2];
+  let profession = arr[3];
+  let agree = arr[4];
 
   let formData = new FormData(form);
 
   if (error === 0) {
-    let responce = await fetch('register.php', {
-      method: 'POST',
-      body: formData 
-    });
-  } else if(error === 1) {
-    alert('Неправильно записан Email')
-  } else if(error === 2) {
-    alert('Имя должно состоять только из букв')
-  } else {
-    alert('Не все поля заполнены')
-  }
+    doFetch(nameD, email, profession, agree);    
+   } //else if(error === 1) {
+  //   alert('Неправильно записан Email')
+  // } else if(error === 2) {
+  //   alert('Имя должно состоять только из букв')
+  // } else {
+  //   alert('Выберите деятельность')
+  // }
 }
 
 function formValidate(form) {
@@ -89,20 +92,35 @@ function formValidate(form) {
       if (emailTest(input)) {
         formAddError(input);
         error = 1;
-      } else if (input.classList.contains('_name')) {
-        if (nameTest(input)) {
-          formAddError(input);
-          error = 2;
-        }
       } else {
-        if (input.value === '') {
-          formAddError(input);
-          error = 3;
-        }
+        var email = input.value;
+      }
+    } 
+
+    if (input.classList.contains('_name')) {
+      if (nameTest(input)) {
+        formAddError(input);
+        error = 2;
+      } else {
+        var nameD = input.value;
       }
     }
-  }
-  return error;
+
+    if (input.classList.contains('_profession')) {
+      if (input.value === '') {
+        formAddError(input);
+        error = 3;
+      } else {
+        var profession = input.value;
+      }
+    }
+
+    if (input.classList.contains('_agree')) {
+      var agree = input.checked ? "yes" : "no";
+    }
+  }  
+  var arr = [error, email, nameD, profession, agree]
+  return arr;
 }
 
 function formAddError(input) {
@@ -116,11 +134,68 @@ function formRemoveError(input) {
 }
 
 function emailTest(input) {
-  return !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,8})+$/.test(input.value);
+  //return !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,8})+$/.test(input.value);
+  let a = input.value;
+  let arr = a.split('');
+  if (arr.includes('@') && arr.includes('.') && (arr[arr.length - 1] != '.') && (arr[0] != '@') && (arr.indexOf('@') < arr.indexOf('.')) && (arr[arr.indexOf('.') - 1] != '')) {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 function nameTest(input) {
-  return !/^[0-9]*$/.test(input.value);
+  let a = input.value;
+  let arr = a.split('');
+  if (arr.includes('0') || arr.includes('1') || arr.includes('2') || arr.includes('3') || arr.includes('4') || arr.includes('5') || arr.includes('6') || arr.includes('7') || arr.includes('8') || arr.includes('9')) {
+    return true;
+  } else {
+    return false;
+  }
+  
+}
+
+async function doFetch(nameD, email, profession, agree) {
+  let user = {
+    userName: nameD,
+    userEmail: email,
+    userProfession: profession,
+    isUserAgree: agree
+  };
+
+  var data = new FormData();
+  data = ("json", JSON.stringify(user));
+  console.log(JSON.stringify(user));
+
+  const headH = {'Content-type': 'application/json'};
+
+  let response = await fetch('http://localhost:4040/register.php', {
+    method: 'POST',
+    body: data,
+    headers: headH
+  });
+  
+  let result = await response.json();
+  console.log(response.status);
+  if (response.ok) {
+    const closePP = document.getElementById('popup');
+    closePP.classList.remove('open');
+    form.reset();
+    
+    alert(result.message);
+    
+    console.log(response.status);
+  } else if (response.status == 500) {
+    const popupError = document.getElementById('popup-error');
+    const closePopupIcon = document.getElementById('close-popup-icon');
+    const popupContent = document.getElementById('popup-content');
+    popupError.classList.remove('popup__block');
+    popupError.classList.add('popup__error');
+    closePopupIcon.classList.remove('popup__block');
+    closePopupIcon.classList.add('close__error');
+    popupContent.classList.add('popup__block');
+    console.log(result.message);
+  }
 }
 
 
