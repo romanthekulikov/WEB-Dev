@@ -1,11 +1,13 @@
 <?php
 
-$inputString = $_POST;
+$json = get_object_vars(json_decode(file_get_contents('php://input')));
 
-$email = $inputString["userEmail"];
-$name = $inputString["userName"];
-$profession = $inputString["userProfession"];
-$checkbox = $inputString["isUserAgree"];
+$email = $json["userEmail"];
+$name = $json["userName"];
+$profession = $json["userProfession"];
+$checkbox = $json["isUserAgree"];
+
+$arr = array();
 
 
 if (($email != null) && ($name != null) && ($profession != null) && ($checkbox != null))
@@ -13,23 +15,30 @@ if (($email != null) && ($name != null) && ($profession != null) && ($checkbox !
     $answer = $checkbox ? "Да" : "Нет";
 
     $email = strtolower($email);
-    $filename = ("C:/Users/Roman/Desktop/WEB-Development/Frontend_Lab/LAB_11/user/$email.txt");
+    $filename = ("Admin/data/$email.json");
 
-    $text = "Имя: $name \r\nEmail: $email \r\nДеятельность: $profession \r\nСогласие: $answer";
+    $arr = array("userName" => "Имя: $name", "userEmail" => "Email: $email", "userProfession" => "Деятельность: $profession", "Согласие на рассылку: $answer");
+    $text = json_encode($arr);
 
     file_put_contents($filename, $text);
 }
 
-if (file_exists("C:/Users/Roman/Desktop/WEB-Development/Frontend_Lab/LAB_11/user/$email.txt"))
+if (file_exists("Admin/data/$email.json"))
 {
     $message = 'HTTP: 200)';
+    $response = [
+        'status' => 200
+    ];
 } else {
-    $message = 'HTTP: 500( ';
+    $response = [
+        'status' => 500,
+        'message' => 'Error'
+    ];
     http_response_code(500);
 }
 
 
-$response = ['message' => $message];
+//$response = ['message' => $message];
 
 
 

@@ -492,7 +492,7 @@ body.lock
     justify-content: center;
 }
 .popup__content
-{
+{ 
     background-color: #fff;
     color: #000;
     width: 33.6%;
@@ -502,11 +502,35 @@ body.lock
     opacity: 0;
     transform: perspective(600px) translate(0px, -100%) rotateX(45deg);
 }
+
+.popup__block
+{
+    display: none;
+}
+
+.popup__error
+{
+    background-color: #fff;
+    padding: 15.9% 4.2% 26.5% 4%;
+    border-radius: 12px;
+    font: normal 500 36px /1.2 Montserrat;
+}
+
 .popup__close
 {
     position: absolute;
     right: 10px;
     top: 10px;
+    font-size: 20px;
+    color: #000;
+    text-decoration: none;
+}
+
+.close__error
+{
+    position: absolute;
+    right: 33.6%;
+    top: 7.2%;
     font-size: 20px;
     color: #000;
     text-decoration: none;
@@ -568,6 +592,10 @@ body.lock
 }
 
 .form__input-reg._error {
+    border-color: #EE5858;
+}
+
+.form__choice._error {
     border-color: #EE5858;
 }
 

@@ -67,17 +67,19 @@ async function formSend(e) {
   let profession = arr[3];
   let agree = arr[4];
 
-  let formData = new FormData(form);
-
   if (error === 0) {
     doFetch(nameD, email, profession, agree);    
-   } //else if(error === 1) {
-  //   alert('Неправильно записан Email')
-  // } else if(error === 2) {
-  //   alert('Имя должно состоять только из букв')
-  // } else {
-  //   alert('Выберите деятельность')
-  // }
+  } else if(error === 1) {
+    alert('Неправильно записан Email');
+  } else if(error === 2) {
+    alert('Имя должно состоять только из букв');
+  } else if(error === 3){
+    alert('Выберите деятельность');
+  } else if(error === 4) {
+    alert('Укажите Emil');
+  } else if(error === 5) {
+    alert('Укажите Имя')
+  }
 }
 
 function formValidate(form) {
@@ -92,15 +94,21 @@ function formValidate(form) {
       if (emailTest(input)) {
         formAddError(input);
         error = 1;
+        if (input.value == '') {
+          error = 4;
+        }
       } else {
         var email = input.value;
       }
     } 
 
     if (input.classList.contains('_name')) {
-      if (nameTest(input)) {
+      if ((input.value == '') || (nameTest(input))) {
         formAddError(input);
         error = 2;
+        if (input.value == '') {
+          error = 5;
+        }
       } else {
         var nameD = input.value;
       }
@@ -157,35 +165,29 @@ function nameTest(input) {
 
 async function doFetch(nameD, email, profession, agree) {
   let user = {
-    userName: nameD,
-    userEmail: email,
-    userProfession: profession,
-    isUserAgree: agree
+    'userName': nameD,
+    'userEmail': email,
+    'userProfession': profession,
+    'isUserAgree': agree
   };
 
-  var data = new FormData();
-  data = ("json", JSON.stringify(user));
-  console.log(JSON.stringify(user));
-
+  const data = JSON.stringify(user);
   const headH = {'Content-type': 'application/json'};
 
-  let response = await fetch('http://localhost:4040/register.php', {
+  let response = await fetch('register.php', {
     method: 'POST',
     body: data,
     headers: headH
   });
   
   let result = await response.json();
-  console.log(response.status);
-  if (response.ok) {
+
+  if (response.ok && result['status'] == 200) {
     const closePP = document.getElementById('popup');
     closePP.classList.remove('open');
     form.reset();
-    
-    alert(result.message);
-    
-    console.log(response.status);
-  } else if (response.status == 500) {
+ 
+  } else if (response.status == 500 || result['status'] == 500) {
     const popupError = document.getElementById('popup-error');
     const closePopupIcon = document.getElementById('close-popup-icon');
     const popupContent = document.getElementById('popup-content');
@@ -194,8 +196,5 @@ async function doFetch(nameD, email, profession, agree) {
     closePopupIcon.classList.remove('popup__block');
     closePopupIcon.classList.add('close__error');
     popupContent.classList.add('popup__block');
-    console.log(result.message);
   }
 }
-
-

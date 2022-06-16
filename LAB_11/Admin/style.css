@@ -1,0 +1,135 @@
+.get-info-button
+{
+  min-width: 100px;
+  width: 19.8%;
+
+  padding: 1% 0% 1% 0%;
+  margin: 1% 0% 0% 5.4%;
+
+  background: #000;
+  border-radius: 5px;
+  color: #fff;
+  font: normal 500 18px /1.2 'Montserrat';
+}
+
+.block_button
+{
+  background: rgba(83, 78, 78, 0.653);
+  border-color: rgba(83, 78, 78, 0.653);
+}
+
+.users
+{
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.users__user
+{
+  background-color: #000;
+  min-width: 19.54%;
+
+  border-radius: 12px;
+
+  margin: 1.5% 4.05% 2.1% 0%;
+}
+
+.user__info
+{
+  display: flex;
+  flex-direction: column;
+
+  color: #fff;
+  font: normal 500 18px /1.2 'Montserrat';
+
+  padding: 4.2% 0% 12% 8.2%;
+}
+
+.user__icon 
+{
+  margin: 9.3% 0% 6% 0%;
+  width: 17%;
+}
+
+.user__name
+{
+  margin-bottom: 3%;
+}
+
+.user__email
+{
+  margin-bottom: 3%;
+}
+
+
+.user__profession
+{
+  margin-bottom: 4%;
+}
+@media screen and (max-width: 1366px)
+{
+  @media screen and (min-width: 320px)
+  {
+    .user__info
+    {
+      font: normal 500 18px /1.2 'Montserrat';
+    }
+    .users
+    {
+      flex-direction: column;
+      flex-wrap: nowrap;
+    }
+    .users__user
+    {
+      margin: 1.5% 9% 2.1% 9%;
+    }
+  }
+
+  @media screen and (min-width: 480px)
+  {
+    .user__info
+    {
+      font: normal 500 16px /1.2 'Montserrat';
+    }
+    .users
+    {
+      flex-direction: column;
+      flex-wrap: nowrap;
+      justify-content: center;
+    }
+    .users__user
+    {
+      min-width: 31.54%;
+    }
+  }
+
+  @media screen and (min-width: 720px)
+  {
+    .user__info
+    {
+      font: normal 500 16px /1.2 'Montserrat';
+    }
+    .users
+    {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+    .users__user
+    {
+      margin: 1.5% 0% 2.1% 5%;
+      min-width: 35.54%;
+    }
+    
+  }
+
+  @media screen and (min-width: 1024px)
+  {
+    .user__info
+    {
+      font: normal 500 18px /1.2 'Montserrat';
+    }
+  }
+}

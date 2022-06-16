@@ -118,7 +118,7 @@
           </div>
         </div>
       </div>
-    </main>
+    </main> 
     <footer class="sheets__footer">
       <div class="footer__finish">
         <p class="finish__text">Don`t <span class="highlite">do</span> it</p>
@@ -126,8 +126,10 @@
     </footer>
     <div id="popup" class="popup">
       <div class="popup__body">
-        <div class="popup__content">
-          <a href="" class="popup__close close-popup"><img class="popup__esc" src="img/esc.svg" /></a>
+        <div id="popup-error" class="popup__block">Упс.. Произошла ошибка!</div>
+        <a id="close-popup-icon" href="" class="popup__block close-popup"><img class="popup__esc" src="img/esc.svg" /></a>
+        <div id="popup-content" class="popup__content">
+        <a href="" class="popup__close close-popup"><img class="popup__esc" src="img/esc.svg" /></a>
           <?php
             include('php/form.php');
           ?>
@@ -138,3 +140,5 @@
     <script src="js/popups.js"></script>
   </body>
 </html>
+
+<!-- Удалить opopup__blck из a popup-error вставит popup__block в popup__content и close__error в a -->
